@@ -135,9 +135,9 @@ module Triager
     def parse_labeled_pr(data)
       existing = get_existing_trello_card(@board, @gh.get_pull_request_url(data))
       case data["label"]["name"]
-      when 'Triaged', 'Merge After Unfreeze'
+      when 'Triaged', 'Merge After Unfreeze', 'pending integration team review'
         list = @waiting_on_us_list
-      when 'Waiting on Contributor'
+      when 'Waiting on Contributor', 'rebase needed', 'additional work needed'
         list = @waiting_on_contributor_list
       when 'Blocked'
         list = @waiting_on_deep_dive_list
