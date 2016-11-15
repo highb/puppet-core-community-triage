@@ -10,6 +10,8 @@ module Triager
 
       raise 'No github instance provided' unless github
       @gh = github
+
+      populate_lists
     end
 
     ##

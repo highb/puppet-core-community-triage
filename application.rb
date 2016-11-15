@@ -41,7 +41,6 @@ post '/payload' do
   end
 
   trello = Triager::Trelloer.new(gh)
-  trello.populate_lists
 
   action = data["action"]
   user = gh.get_user_login(data)
