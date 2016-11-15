@@ -74,6 +74,8 @@ module Triager
           desc: description,
           list_id: list.attributes[:id],
         )
+      else
+        card = existing
       end
 
       card
@@ -126,15 +128,8 @@ module Triager
 
     def parse_edited_pr(data)
       user = @gh.get_user_login(data)
-      existing = get_existing_trello_card(@board, @gh.get_pull_request_url(data))
-      if existing
-        # Note: due to a bug in ruby-trello (https://github.com/jeremytregunna/ruby-trello/issues/152), we can't
-        # update the fields of a card. To work around this, we archive the old card and create a new one :(
-        archive_trello_card(existing)
-      end
-
-      new_card = create_trello_card(@board, @waiting_on_us_list, data)
-      add_comment_to_trello_card(new_card, "Update: Pull request title updated by #{user}")
+      card = create_trello_card(@board, @waiting_on_us_list, data)
+      add_comment_to_trello_card(card, "Update: Pull request title updated by #{user}")
     end
 
     def parse_labeled_pr(data)
