@@ -10,6 +10,8 @@ module Triager
 
       raise 'No github instance provided' unless github
       @gh = github
+
+      populate_lists
     end
 
     ##
@@ -116,7 +118,7 @@ module Triager
       if card
         move_trello_card(card, @waiting_on_us_list) if (card.list_id != @open_pr_list.id && card.list_id != @waiting_on_deep_dive_list.id)
       else
-        card = create_trello_card(board, @waiting_on_us_list, data)
+        card = create_trello_card(@board, @waiting_on_us_list, data)
       end
 
       add_comment_to_trello_card(card, "Update: New comment from #{user}: #{data["comment"]["html_url"]}")
